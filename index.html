@@ -5,6 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Samuel Holmes – Portfolio</title>
 <link rel="stylesheet" href="main.css" />
+<style>
+  /* Button style for toggle */
+  .toggle-btn {
+    background-color: #007acc;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 1rem;
+  }
+  .toggle-btn:hover {
+    background-color: #005fa3;
+  }
+</style>
 </head>
 <body class="main-page">
 <header>
@@ -23,12 +39,62 @@
     <h2>Quick Links</h2>
     <ul>
         <li><a href="work-experience.html">Work Experience</a></li>
-
     </ul>
+</section>
+
+<!-- Work Experience Section dynamically loaded -->
+<section>
+  <h2>Work Experience</h2>
+
+  <div id="work-experience-container">
+    <!-- Jobs will be dynamically loaded here -->
+  </div>
+
+  <button id="toggle-jobs" class="toggle-btn">Show More</button>
 </section>
 
 <footer>
     <p>&copy; 2025 Samuel Holmes</p>
 </footer>
+
+<script>
+async function loadWorkExperience() {
+    const container = document.getElementById("work-experience-container");
+    const toggleBtn = document.getElementById("toggle-jobs");
+
+    try {
+    const response = await fetch('work-experience-content.html');
+    if (!response.ok) throw new Error('Failed to load work experience content');
+    const html = await response.text();
+    container.innerHTML = html;
+
+    const jobs = container.querySelectorAll('.job');
+    if (jobs.length <= 1) {
+        toggleBtn.style.display = 'none';  // no toggle if just one job
+    } else {
+        // Initially show only the first job, hide the rest
+        jobs.forEach((job, i) => {
+        if (i > 0) job.style.display = 'none';
+        });
+
+        let expanded = false;
+        toggleBtn.addEventListener('click', () => {
+        expanded = !expanded;
+        jobs.forEach((job, i) => {
+            if (i > 0) job.style.display = expanded ? 'block' : 'none';
+        });
+        toggleBtn.textContent = expanded ? 'Show Less' : 'Show More';
+        });
+    }
+    } catch (error) {
+    container.innerHTML = '<p>Unable to load work experience at this time.</p>';
+    console.error(error);
+    toggleBtn.style.display = 'none';
+    }
+}
+
+  // Run after page loads
+window.addEventListener('DOMContentLoaded', loadWorkExperience);
+</script>
 </body>
 </html>
