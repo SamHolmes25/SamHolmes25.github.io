@@ -19,13 +19,6 @@ h1 {
     margin: 0;
 }
 
-h2 {
-    font-size: 1.8rem;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 0.3rem;
-    margin-top: 2.5rem;
-}
-
 ul {
     list-style-type: none;
     padding: 0;
@@ -42,11 +35,4 @@ a {
 
 a:hover {
     text-decoration: underline;
-}
-
-footer {
-    text-align: center;
-    padding: 1rem 0;
-    background: #eee;
-    margin-top: 3rem;
 }
